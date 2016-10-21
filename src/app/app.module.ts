@@ -5,13 +5,15 @@ import { HttpModule } from '@angular/http';
 import { routing } from './app.routes';
 
 import { AppComponent } from './app.component';
-import { PollFormComponent } from './poll-form/poll-form.component';
-import { PollApiService } from './poll-api.service';
+import { CreatePollComponent } from './create-Poll/create-Poll.component';
+import { PollApiService } from './Poll-api.service';
+import { ShowPollComponent } from './show-Poll/show-Poll.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    PollFormComponent
+    CreatePollComponent,
+    ShowPollComponent
   ],
   imports: [
     BrowserModule,

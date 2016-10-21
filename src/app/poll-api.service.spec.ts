@@ -1,7 +1,7 @@
 /* tslint:disable:no-unused-variable */
 
 import { TestBed, async, inject } from '@angular/core/testing';
-import { PollApiService } from './poll-api.service';
+import { PollApiService } from './Poll-api.service';
 
 describe('Service: PollApi', () => {
   beforeEach(() => {
