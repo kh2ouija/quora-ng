@@ -5,15 +5,17 @@ import { HttpModule } from '@angular/http';
 import { routing } from './app.routes';
 
 import { AppComponent } from './app.component';
-import { CreatePollComponent } from './create-Poll/create-Poll.component';
-import { PollApiService } from './Poll-api.service';
-import { ShowPollComponent } from './show-Poll/show-Poll.component';
+import { CreatePollComponent } from './create-poll/create-poll.component';
+import { PollApiService } from './poll-api.service';
+import { ShowPollComponent } from './show-poll/show-poll.component';
+import { PollLinksComponent } from './poll-links/poll-links.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     CreatePollComponent,
-    ShowPollComponent
+    ShowPollComponent,
+    PollLinksComponent
   ],
   imports: [
     BrowserModule,

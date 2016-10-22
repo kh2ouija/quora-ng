@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
+import { Observable } from 'rxjs/observable';
 
 export class Answer {
   text: string;
@@ -25,14 +26,11 @@ export class PollApiService {
     this.baseUrl = 'http://localhost:8080';
   }
 
-  submitPoll(poll: Poll) {
-    this.http.post(`${this.baseUrl}/polls`, poll).subscribe(
-      response => console.log(`OK ${window.location.origin}/${response.text()}`),
-      error => console.error(error)
-    );
+  submitPoll(poll: Poll): Observable<any> {
+    return this.http.post(`${this.baseUrl}/polls`, poll);
   }
 
-  fetchPoll(hash: string) {
+  fetchPoll(hash: string): Observable<any> {
     return this.http.get(`${this.baseUrl}/polls/${hash}`);
   }
 

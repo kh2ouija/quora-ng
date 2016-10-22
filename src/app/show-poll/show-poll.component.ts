@@ -1,26 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { Poll, PollApiService } from '../Poll-api.service';
+import { Poll, PollApiService } from '../poll-api.service';
 
 @Component({
-  selector: 'app-show-Poll',
-  templateUrl: './show-Poll.component.html',
-  styleUrls: ['./show-Poll.component.css']
+  selector: 'show-poll',
+  templateUrl: './show-poll.component.html',
+  styleUrls: ['./show-poll.component.css']
 })
 export class ShowPollComponent implements OnInit {
-  Poll: Poll;
+  poll: Poll;
 
-  constructor(private PollApiService: PollApiService, private route: ActivatedRoute) { }
+  constructor(private pollApiService: PollApiService, private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      this.PollApiService.fetchPoll(params['hash']).subscribe(
-        Poll => {
-          this.Poll = Poll.json();
-          console.log(this.Poll);
-        },
-        error => console.error(error)
+      this.pollApiService.fetchPoll(params['hash']).subscribe(
+        response => this.poll = response.json()
       );
     });
     

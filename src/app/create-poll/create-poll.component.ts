@@ -1,16 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { Poll, Answer, PollApiService } from '../Poll-api.service'
+import { Router } from '@angular/router';
+
+import { Poll, Answer, PollApiService } from '../poll-api.service'
 
 @Component({
-  selector: 'app-create-Poll',
-  templateUrl: './create-Poll.component.html',
-  styleUrls: ['./create-Poll.component.css']
+  selector: 'create-poll',
+  templateUrl: './create-poll.component.html',
+  styleUrls: ['./create-poll.component.css']
 })
 export class CreatePollComponent implements OnInit {
 
   poll: Poll;
 
-  constructor(private PollApiService: PollApiService) {
+  constructor(private pollApiService: PollApiService, private router: Router) {
     this.poll = {
       question: '',
       answers: [new Answer(), new Answer()],
@@ -30,7 +32,10 @@ export class CreatePollComponent implements OnInit {
   }
 
   createPoll() {
-    this.PollApiService.submitPoll(this.poll);
+    this.pollApiService.submitPoll(this.poll).subscribe(
+      response => this.router.navigateByUrl(`/success/${response.text()}`),
+      error => console.error(error)
+    );
   };
 
   customTrackBy(index: number, obj: any): any {

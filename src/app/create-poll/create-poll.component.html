@@ -9,7 +9,7 @@
       <label>Răspunsuri</label>
       <div *ngFor="let answer of poll.answers; let i = index; trackBy:customTrackBy" [ngClass]="{'form-group': true, 'has-success': answerInput.valid, 'has-error': answerInput.dirty && !answerInput.valid}">
         <div class="input-group">
-          <input #answerInput="ngModel" required [(ngModel)]="answer.text" name="answers[i]" placeholder="Ex: Răspuns {{i + 1}}" class="form-control"/>
+          <input #answerInput="ngModel" required [(ngModel)]="answer.text" name="answers[{{i}}]" placeholder="Ex: Răspuns {{i + 1}}" class="form-control"/>
           <span class="input-group-btn">
             <button type="button" (click)="deleteAnswer(i)" tabindex="-1" [ngClass]="poll.answers.length > 1 ? 'btn btn-danger' : 'btn btn-danger disabled'">Șterge</button>
           </span>
