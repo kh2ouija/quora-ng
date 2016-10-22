@@ -6,44 +6,46 @@
 
     <div class="col-md-6">
       <label>Întrebare</label>
-      <div [ngClass]="{'form-group form-group-lg': true, 'has-success': questionInput.valid, 'has-error': questionInput.dirty && !questionInput.valid}">
+      <div [ngClass]="{'form-group form-group-lg': true, 'has-success': questionInput.valid, 'has-error': pollForm.dirty && !questionInput.valid}">
         <input required #questionInput="ngModel" [(ngModel)]="poll.question" name="question" placeholder="Ex: Care e culoarea ta preferata?" class="form-control" />    
       </div>
       <label>Răspunsuri</label>
-      <div *ngFor="let answer of poll.answers; let i = index; trackBy:customTrackBy" [ngClass]="{'form-group': true, 'has-success': answerInput.valid, 'has-error': answerInput.dirty && !answerInput.valid}">
+      <div *ngFor="let answer of poll.answers; let i = index; trackBy:customTrackBy" [ngClass]="{'form-group': true, 'has-success': answerInput.valid, 'has-error': pollForm.dirty && !answerInput.valid}">
         <div class="input-group">
           <input #answerInput="ngModel" required [(ngModel)]="answer.text" name="answers[{{i}}]" placeholder="Ex: Răspuns {{i + 1}}" class="form-control"/>
           <span class="input-group-btn">
-            <button type="button" (click)="deleteAnswer(i)" tabindex="-1" [ngClass]="poll.answers.length > 1 ? 'btn btn-danger' : 'btn btn-danger disabled'">Șterge</button>
+            <button type="button" (click)="deleteAnswer(i)" tabindex="-1" [ngClass]="poll.answers.length > 1 ? 'btn btn-default' : 'btn btn-danger disabled'">
+              <span class="glyphicon glyphicon-trash"></span>
+            </button>
           </span>
         </div>
       </div>
       <div class="form-group">
-        <a href="#" (click)="addAnswer()">Adauga un raspuns</a>
+        <a href="#" (click)="addAnswer()">Încă un răspuns</a>
       </div>
       
       <!-- Options -->
       <div class="well">
-          <div class="checkbox">
-            <label>
-              <input type="checkbox" name="multipleChoice" [(ngModel)]="poll.multipleChoice" value="">
-              Se pot bifa mai multe răspunsuri
-            </label>
-          </div>
-          <div class="checkbox">
-            <label>
-              <input type="checkbox" name="hideResults" [(ngModel)]="poll.hideResults" value="">
-              Ascunde butonul Rezultate până după vot
-            </label>
-          </div>
-          <div class="form-group">
-            <label>Vrei să previi votul multiplu?</label>
-            <select id="security" class="form-control">
-              <option>Nu, nu e important</option>
-              <option>Da, cu cookie</option>
-              <option>Da, un singur vot per IP</option>
-            </select>
-          </div>
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" name="multipleChoice" [(ngModel)]="poll.multipleChoice" value="">
+            Se pot bifa mai multe răspunsuri
+          </label>
+        </div>
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" name="hideResults" [(ngModel)]="poll.hideResults" value="">
+            Ascunde butonul Rezultate până după vot
+          </label>
+        </div>
+        <div class="form-group">
+          <label>Vrei să previi votul multiplu?</label>
+          <select id="security" class="form-control">
+            <option>Nu, nu e important</option>
+            <option>Da, cu cookie</option>
+            <option>Da, un singur vot per IP</option>
+          </select>
+        </div>
       </div>
 
       <!-- Submit button -->
@@ -52,7 +54,7 @@
       </div>
     </div>
 
-    <div class="col-md-6">
+    <div class="col-md-6 center-block">
       <!-- Preview -->
       <div class="panel panel-default panel-preview">
         <div class="panel-heading">
@@ -67,17 +69,17 @@
             <div *ngFor="let answer of poll.answers; let i = index" class="form-group">
               <div [ngClass]="poll.multipleChoice ? 'checkbox' : 'radio'">
                 <label>
-                  <input type="{{poll.multipleChoice ? 'checkbox' : 'radio'}}">
-                  <div [ngSwitch]="answer.text === ''">
+                  <input type="{{poll.multipleChoice ? 'checkbox' : 'radio'}}" name="answer">
+                  <span [ngSwitch]="answer.text === ''">
                     <em *ngSwitchCase='true'>{{'Răspuns ' + (i+1)}}</em>
-                    <div *ngSwitchCase='false'>{{answer.text}}</div>
-                  </div>
+                    <span *ngSwitchCase='false'>{{answer.text}}</span>
+                  </span>
                 </label>
               </div>
             </div>
             <div class="form-group">
               <button class="btn btn-primary">Voteaza</button>
-              <button *ngIf="!poll.hideResults" class="btn btn-primary">Rezultate</button>
+              <button *ngIf="!poll.hideResults" class="btn btn-default">Rezultate</button>
             </div>
           </form>
         </div>
