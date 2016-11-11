@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { Poll, Answer, PollApiService } from '../poll-api.service'
+import { Poll, Answer, PollApiService } from '../poll-api.service';
 
 @Component({
   selector: 'create-poll',
@@ -11,15 +11,24 @@ import { Poll, Answer, PollApiService } from '../poll-api.service'
 export class CreatePollComponent implements OnInit {
 
   poll: Poll;
-  validationFlag: boolean = false;
+  createdHash: string;
 
   constructor(private pollApiService: PollApiService, private router: Router) {
+    this.reset();
+  }
+
+  reset() {
     this.poll = {
       question: '',
       answers: [new Answer(), new Answer()],
       multipleChoice: false,
       hideResults: false
     };
+    this.createdHash = null;
+  }
+
+  getSuccessHref() {
+    return `${window.location.protocol}//${window.location.host}/${this.createdHash}`
   }
 
   addAnswer() {
@@ -33,9 +42,11 @@ export class CreatePollComponent implements OnInit {
   }
 
   createPoll() {
-    this.validationFlag = true;
     this.pollApiService.submitPoll(this.poll).subscribe(
-      response => this.router.navigateByUrl(`/${response.text()}`),
+      response => {
+        this.createdHash = response.text();
+        //this.router.navigateByUrl(`/${response.text()}`),
+      },
       error => console.error(error)
     );
   };

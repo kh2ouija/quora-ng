@@ -1,87 +1,107 @@
-<div class="page-header">
-  <h1 class="text-center">Creează un chestionar!</h1>
+<!-- Congrats -->
+<div *ngIf="createdHash" class="row">
+  <div class="col-md-3"></div>
+  <div class="col-md-6">
+    <div class="alert alert-info" role="alert">
+      <h4>Chestionarul tău a fost creat.</h4>
+      Trimite linkul celor care vrei să voteze:
+      <div class="form-group">
+        <input class="form-control input-lg poll-url" value="{{getSuccessHref()}}" readonly/>
+      </div>
+      <div class="form-group">
+        <a routerLink="/{{createdHash}}" class="btn btn-primary btn-lg center-block">Du-mă acolo</a>
+      </div>            
+    </div>
+  </div>
+  <div class="col-md-3"></div>
 </div>
 
-<div class='row'>
-  <form #pollForm="ngForm" (ngSubmit)="createPoll()" novalidate>
+<div *ngIf="!createdHash">
+  <div class="page-header">
+    <h1 class="text-center">Creează un chestionar!</h1>
+  </div>
 
-    <div class="col-md-6">
-      <label>Întrebare</label>
-      <div [ngClass]="{'form-group form-group-lg': true, 'has-success': questionInput.valid, 'has-error': pollForm.dirty && !questionInput.valid}">
-        <input required #questionInput="ngModel" [(ngModel)]="poll.question" name="question" placeholder="Ex: Care e culoarea ta preferata?" class="form-control" />    
-      </div>
-      <label>Răspunsuri</label>
-      <div *ngFor="let answer of poll.answers; let i = index; trackBy:customTrackBy" [ngClass]="{'form-group': true, 'has-success': answerInput.valid, 'has-error': pollForm.dirty && !answerInput.valid}">
-        <div class="input-group">
-          <input #answerInput="ngModel" required [(ngModel)]="answer.text" name="answers[{{i}}]" placeholder="Ex: Răspuns {{i + 1}}" class="form-control"/>
-          <span class="input-group-btn">
-            <button type="button" (click)="deleteAnswer(i)" tabindex="-1" [ngClass]="poll.answers.length > 1 ? 'btn btn-default' : 'btn btn-danger disabled'">
-              <span class="glyphicon glyphicon-trash"></span>
-            </button>
-          </span>
+  <div class='row'>
+    <form #pollForm="ngForm" (ngSubmit)="createPoll()" novalidate>
+
+      <div class="col-md-5">
+        <label>Întrebare</label>
+        <div [ngClass]="{'form-group form-group-lg': true, 'has-success': questionInput.valid, 'has-error': pollForm.dirty && !questionInput.valid}">
+          <input required #questionInput="ngModel" [(ngModel)]="poll.question" name="question" placeholder="Ex: Care e culoarea ta preferata?" class="form-control" />    
         </div>
-      </div>
-      <div class="form-group">
-        <a href="#" (click)="addAnswer()">Încă un răspuns</a>
-      </div>
-      
-      <!-- Options -->
-      <div class="well">
-        <div class="checkbox">
-          <label>
-            <input type="checkbox" name="multipleChoice" [(ngModel)]="poll.multipleChoice" value="">
-            Se pot bifa mai multe răspunsuri
-          </label>
-        </div>
-        <div class="checkbox">
-          <label>
-            <input type="checkbox" name="hideResults" [(ngModel)]="poll.hideResults" value="">
-            Ascunde butonul Rezultate până după vot
-          </label>
+        <label>Răspunsuri</label>
+        <div *ngFor="let answer of poll.answers; let i = index; trackBy:customTrackBy" [ngClass]="{'form-group': true, 'has-success': answerInput.valid, 'has-error': pollForm.dirty && !answerInput.valid}">
+          <div class="input-group">
+            <input #answerInput="ngModel" required [(ngModel)]="answer.text" name="answers[{{i}}]" placeholder="Ex: Răspuns {{i + 1}}" class="form-control"/>
+            <span class="input-group-btn">
+              <button type="button" (click)="deleteAnswer(i)" tabindex="-1" [ngClass]="poll.answers.length > 1 ? 'btn btn-default' : 'btn btn-danger disabled'">
+                <span class="glyphicon glyphicon-trash"></span>
+              </button>
+            </span>
+          </div>
         </div>
         <div class="form-group">
-          <label>Protecție împotriva votului multiplu</label>
-          <select id="security" class="form-control">
-            <option>Cu cookie</option>
-            <option>Un vot per IP</option>
-          </select>
+          <a href="#" (click)="addAnswer()">Încă un răspuns</a>
+        </div>
+        
+        <!-- Options -->
+        <div class="well">
+          <div class="checkbox">
+            <label>
+              <input type="checkbox" name="multipleChoice" [(ngModel)]="poll.multipleChoice" value="">
+              Se pot bifa mai multe răspunsuri
+            </label>
+          </div>
+          <div class="checkbox">
+            <label>
+              <input type="checkbox" name="hideResults" [(ngModel)]="poll.hideResults" value="">
+              Ascunde butonul Rezultate până după vot
+            </label>
+          </div>
+          <div class="form-group">
+            <label>Protecție împotriva votului multiplu</label>
+            <select id="security" class="form-control">
+              <option>Standard (cu cookie)</option>
+              <option>Extra (un vot per IP)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Submit button -->
+        <div class="form-group">
+          <button type="submit" [disabled]="!pollForm.valid" class="btn btn-lg btn-primary center-block">Creează!</button>
         </div>
       </div>
-
-      <!-- Submit button -->
-      <div class="form-group">
-        <button type="submit" [disabled]="!pollForm.valid" class="btn btn-lg btn-primary center-block">Creează!</button>
-      </div>
-    </div>
-    <div class="col-md-1"></div>
-    <div class="col-md-5 center-block">
-      <!-- Preview -->
-      <div class="panel panel-default panel-preview">
-        <div class="panel-body">
-          <form>
-            <h2 [ngSwitch]="poll.question === ''">
-              <em *ngSwitchCase='true'>Întrebarea ta?</em>
-              <div *ngSwitchCase='false'>{{poll.question}}</div>
-            </h2>
-            <div *ngFor="let answer of poll.answers; let i = index" class="form-group">
-              <div [ngClass]="poll.multipleChoice ? 'checkbox' : 'radio'">
-                <label>
-                  <input type="{{poll.multipleChoice ? 'checkbox' : 'radio'}}" name="answer">
-                  <span [ngSwitch]="answer.text === ''">
-                    <em *ngSwitchCase='true'>{{'Răspuns ' + (i+1)}}</em>
-                    <span *ngSwitchCase='false'>{{answer.text}}</span>
-                  </span>
-                </label>
+      <div class="col-md-2"></div>
+      <div class="col-md-5 center-block">
+        <!-- Preview -->
+        <div class="panel panel-default panel-preview">
+          <div class="panel-body">
+            <form>
+              <h2 [ngSwitch]="poll.question === ''">
+                <em *ngSwitchCase='true'>Întrebarea ta?</em>
+                <div *ngSwitchCase='false'>{{poll.question}}</div>
+              </h2>
+              <div *ngFor="let answer of poll.answers; let i = index" class="form-group">
+                <div [ngClass]="poll.multipleChoice ? 'checkbox' : 'radio'">
+                  <label>
+                    <input type="{{poll.multipleChoice ? 'checkbox' : 'radio'}}" name="answer">
+                    <span [ngSwitch]="answer.text === ''">
+                      <em *ngSwitchCase='true'>{{'Răspuns ' + (i+1)}}</em>
+                      <span *ngSwitchCase='false'>{{answer.text}}</span>
+                    </span>
+                  </label>
+                </div>
               </div>
-            </div>
-            <div class="form-group">
-              <button class="btn btn-primary">Voteaza</button>
-              <button *ngIf="!poll.hideResults" class="btn btn-default">Rezultate</button>
-            </div>
-          </form>
+              <div class="form-group">
+                <button class="btn btn-primary">Voteaza</button>
+                <button *ngIf="!poll.hideResults" class="btn btn-default">Rezultate</button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
-    </div>
 
-  </form>
+    </form>
+  </div>
 </div>

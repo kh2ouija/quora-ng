@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 
 import { Poll, PollApiService } from '../poll-api.service';
@@ -11,11 +12,12 @@ import { Poll, PollApiService } from '../poll-api.service';
 export class ShowPollComponent implements OnInit {
 
   poll: Poll;
-  voteSubmitted: boolean;
+  href: string;
 
-  constructor(private pollApiService: PollApiService, private route: ActivatedRoute) { }
+  constructor(private pollApiService: PollApiService, private route: ActivatedRoute) {}
 
   ngOnInit() {
+    console.log('show poll init');
     this.route.params.subscribe(params => {
       this.pollApiService.fetchPoll(params['hash']).subscribe(
         response => this.poll = response.json()
