@@ -1,17 +1,19 @@
 <!-- Congrats -->
-<div *ngIf="createdHash" class="row">
+<div *ngIf="createdHash" class="row success-panel">
   <div class="col-md-3"></div>
   <div class="col-md-6">
-    <div class="alert alert-info" role="alert">
-      <h4>Chestionarul tău a fost creat.</h4>
-      Trimite linkul celor care vrei să voteze:
-      <div class="form-group">
-        <input class="form-control input-lg poll-url" value="{{getSuccessHref()}}" readonly/>
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <h4>Chestionarul tău a fost creat.</h4>
+        Trimite linkul celor care vrei să voteze:
+        <div class="form-group">
+          <input class="form-control input-lg poll-url" value="{{getSuccessHref()}}" readonly/>
+        </div>
+        <div class="form-group">
+          <a routerLink="/{{createdHash}}" class="btn btn-primary btn-lg center-block">Du-mă acolo</a>
+        </div>  
       </div>
-      <div class="form-group">
-        <a routerLink="/{{createdHash}}" class="btn btn-primary btn-lg center-block">Du-mă acolo</a>
-      </div>            
-    </div>
+    </div>    
   </div>
   <div class="col-md-3"></div>
 </div>
