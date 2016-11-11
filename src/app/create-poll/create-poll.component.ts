@@ -11,6 +11,7 @@ import { Poll, Answer, PollApiService } from '../poll-api.service'
 export class CreatePollComponent implements OnInit {
 
   poll: Poll;
+  validationFlag: boolean = false;
 
   constructor(private pollApiService: PollApiService, private router: Router) {
     this.poll = {
@@ -32,8 +33,9 @@ export class CreatePollComponent implements OnInit {
   }
 
   createPoll() {
+    this.validationFlag = true;
     this.pollApiService.submitPoll(this.poll).subscribe(
-      response => this.router.navigateByUrl(`/success/${response.text()}`),
+      response => this.router.navigateByUrl(`/${response.text()}`),
       error => console.error(error)
     );
   };

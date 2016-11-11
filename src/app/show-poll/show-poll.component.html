@@ -1,22 +1,28 @@
-<div class="panel panel-primary">
-  <div class="panel-heading">
-    <h3 class="panel-title">Votează!</h3>
-  </div>
-  <div class="panel-body" *ngIf="poll">
-    <form>
-      <h2>{{poll.Poll}}</h2>
-      <div *ngFor="let answer of poll.answers; let i = index" class="form-group">
-        <div *ngIf="answer.text !== ''" [ngClass]="poll.multipleChoice ? 'checkbox' : 'radio'">
-          <label>
-            <input type="{{poll.multipleChoice ? 'checkbox' : 'radio'}}">
-            {{answer.text}}
-          </label>
-        </div>
+<div class="show-poll row">
+  <div class="col-md-2"></div>
+  <div class="col-md-8">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h3 class="panel-title">Votează!</h3>
       </div>
-      <div class="form-group">
-        <button class="btn btn-primary">Voteaza</button>
-        <button *ngIf="!poll.hideResults" class="btn btn-primary">Rezultate</button>
+      <div class="panel-body" *ngIf="poll">
+        <form>
+          <h2>{{poll.Poll}}</h2>
+          <div *ngFor="let answer of poll.answers; let i = index" class="form-group">
+            <div *ngIf="answer.text !== ''" [ngClass]="poll.multipleChoice ? 'checkbox' : 'radio'">
+              <label>
+                <input type="{{poll.multipleChoice ? 'checkbox' : 'radio'}}">
+                {{answer.text}}
+              </label>
+            </div>
+          </div>
+          <div class="form-group">
+            <button class="btn btn-primary">Voteaza</button>
+            <button *ngIf="!poll.hideResults" class="btn btn-default">Rezultate</button>
+          </div>
+        </form>
       </div>
-    </form>
+    </div>
   </div>
+  <div class="col-md-2"></div>
 </div>

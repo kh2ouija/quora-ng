@@ -9,7 +9,9 @@ import { Poll, PollApiService } from '../poll-api.service';
   styleUrls: ['./show-poll.component.css']
 })
 export class ShowPollComponent implements OnInit {
+
   poll: Poll;
+  voteSubmitted: boolean;
 
   constructor(private pollApiService: PollApiService, private route: ActivatedRoute) { }
 
