@@ -77,9 +77,9 @@
       <div class="col-md-2"></div>
       <div class="col-md-5 center-block">
         <!-- Preview -->
-        <div class="panel panel-default panel-preview">
+        <div class="panel panel-default preview-panel">
           <div class="panel-body">
-            <form>
+            <fieldset disabled>
               <h2 [ngSwitch]="poll.question === ''">
                 <em *ngSwitchCase='true'>Întrebarea ta?</em>
                 <div *ngSwitchCase='false'>{{poll.question}}</div>
@@ -99,7 +99,7 @@
                 <button class="btn btn-primary">Voteaza</button>
                 <button *ngIf="!poll.hideResults" class="btn btn-default">Rezultate</button>
               </div>
-            </form>
+            </fieldset>
           </div>
         </div>
       </div>

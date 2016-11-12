@@ -3,11 +3,9 @@ import { Http } from '@angular/http';
 import { Observable } from 'rxjs/observable';
 
 export class Answer {
+  id: number;
   text: string;
-
-  constructor() {
-    this.text = '';
-  }  
+  picked: boolean;
 }
 
 export class Poll {
@@ -32,6 +30,10 @@ export class PollApiService {
 
   fetchPoll(hash: string): Observable<any> {
     return this.http.get(`${this.baseUrl}/polls/${hash}`);
+  }
+
+  submitVote(hash: string, answerIds: number[]) {
+    return this.http.post(`${this.baseUrl}/polls/${hash}/votes`, answerIds);
   }
 
 }

@@ -5,3 +5,7 @@ input.poll-url {
 div.success-panel {
   margin-top: 100px;
 }
+
+div.preview-panel {
+  margin-top: 40px;
+}

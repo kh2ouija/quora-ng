@@ -7,18 +7,20 @@
         <h3 class="panel-title">Votează!</h3>
       </div>
       <div class="panel-body" *ngIf="poll">
-        <form>
-          <h2>{{poll.Poll}}</h2>
+        <h2 class="poll-title">{{poll.question}}</h2>
+        <form (ngSubmit)="submitVote()">
           <div *ngFor="let answer of poll.answers; let i = index" class="form-group">
-            <div *ngIf="answer.text !== ''" [ngClass]="poll.multipleChoice ? 'checkbox' : 'radio'">
-              <label>
-                <input type="{{poll.multipleChoice ? 'checkbox' : 'radio'}}">
-                {{answer.text}}
-              </label>
+            <div class="form-group">
+              <div *ngIf="answer.text !== ''" [ngClass]="poll.multipleChoice ? 'checkbox' : 'radio'">
+                <label>
+                  <input name="selectedAnswer" value="{{answer.id}}" (click)="answerClicked(answer)" type="{{poll.multipleChoice ? 'checkbox' : 'radio'}}">
+                  {{answer.text}}
+                </label>
+              </div>
             </div>
           </div>
-          <div class="form-group">
-            <button class="btn btn-primary">Voteaza</button>
+          <div class="form-group poll-buttons">
+            <button type="submit" class="btn btn-primary">Voteaza</button>
             <button *ngIf="!poll.hideResults" class="btn btn-default">Rezultate</button>
           </div>
         </form>
