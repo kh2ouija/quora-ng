@@ -10,3 +10,7 @@ h2.poll-title {
 div.poll-buttons {
   margin-top: 40px;
 }
+
+div.progress-bar {
+  min-width: 2em;
+}

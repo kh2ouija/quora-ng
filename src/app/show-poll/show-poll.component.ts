@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
+import { DomSanitizer } from '@angular/platform-browser';
+import * as _ from 'lodash';
 
 import { Ballot, Poll, Answer, PollApiService } from '../poll-api.service';
 
@@ -13,8 +15,11 @@ export class ShowPollComponent implements OnInit {
 
   ballot: Ballot;
   hash: string;
+  showingResults: boolean;
 
-  constructor(private pollApiService: PollApiService, private route: ActivatedRoute) {}
+  constructor(private pollApiService: PollApiService, private route: ActivatedRoute, private sanitizer: DomSanitizer) {
+    this.showingResults = false;
+  }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
@@ -22,7 +27,12 @@ export class ShowPollComponent implements OnInit {
         response => {
           this.hash = params['hash'];
           this.ballot = response.json();
-          this.ballot.poll.answers.forEach((a) => a.picked = false);
+          if (this.ballot.alreadyVoted) {
+            this.showResults();
+          }
+          else {
+            this.ballot.poll.answers.forEach((a) => a.picked = false);
+          }  
         }
       );
     });  
@@ -41,8 +51,19 @@ export class ShowPollComponent implements OnInit {
   submitVote() {
     let answerIds: number[] = this.ballot.poll.answers.filter((a) => a.picked).map((a) => a.id); 
     this.pollApiService.submitVote(this.hash, answerIds).subscribe(
-      response => console.log(response.json())
+      response => {
+        this.ballot = response.json();
+        this.showResults();
+      }
     )
+  }
+
+  showResults() {
+    this.ballot.results = _.cloneDeep(this.ballot.poll.answers);
+    this.ballot.results = _.orderBy(this.ballot.results, 'votes', 'desc');
+    this.ballot.totalVotes = _(this.ballot.results).map('votes').sum();
+    _.each(this.ballot.results, (a) => a.percStyle = this.sanitizer.bypassSecurityTrustStyle(`${100 * a.votes / this.ballot.totalVotes}%`));    
+    this.showingResults = true;
   }
 
 }

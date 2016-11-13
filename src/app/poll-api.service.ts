@@ -1,11 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { Observable } from 'rxjs/observable';
+import { SafeStyle } from '@angular/platform-browser';
 
 export class Answer {
   id: number;
-  text: string;
+  text: string = '';
   picked: boolean;
+  percStyle: SafeStyle;
+  votes: number;
 }
 
 export class Poll {
@@ -17,7 +20,9 @@ export class Poll {
 
 export class Ballot {
   poll: Poll;
+  results: Answer[];
   alreadyVoted: boolean;
+  totalVotes: number;
 }
 
 @Injectable()

@@ -1,30 +1,41 @@
 <div class="show-poll row">
   <div class="col-md-2"></div>
-  <div class="col-md-8">  
-    <!-- Poll -->
-    <div class="panel panel-primary">
-      <div class="panel-heading">
-        <h3 class="panel-title">Votează!</h3>
-      </div>
-      <div class="panel-body" *ngIf="ballot">
-        <h2 class="poll-title">{{ballot.poll.question}}</h2>
-        <form (ngSubmit)="submitVote()">
-          <div *ngFor="let answer of ballot.poll.answers; let i = index" class="form-group">
-            <div class="form-group">
-              <div *ngIf="answer.text !== ''" [ngClass]="ballot.poll.multipleChoice ? 'checkbox' : 'radio'">
-                <label>
-                  <input name="selectedAnswer" value="{{answer.id}}" (click)="answerClicked(answer)" type="{{ballot.poll.multipleChoice ? 'checkbox' : 'radio'}}">
-                  {{answer.text}}
-                </label>
+  <div class="col-md-8">
+    <div *ngIf="ballot">
+      <div [ngSwitch]="showingResults">
+        <!-- Poll -->
+        <div class="panel panel-primary">
+          <div class="panel-body" *ngIf="ballot">
+            <h2 class="poll-title">{{ballot.poll.question}}</h2>
+            <form (ngSubmit)="submitVote()" *ngSwitchCase="false">
+              <div *ngFor="let answer of ballot.poll.answers; let i = index" class="form-group">
+                <div class="form-group">
+                  <div *ngIf="answer.text !== ''" [ngClass]="ballot.poll.multipleChoice ? 'checkbox' : 'radio'">
+                    <label>
+                      <input name="selectedAnswer" value="{{answer.id}}" (click)="answerClicked(answer)" type="{{ballot.poll.multipleChoice ? 'checkbox' : 'radio'}}">
+                      {{answer.text}}
+                    </label>
+                  </div>
+                </div>
               </div>
+              <div class="form-group poll-buttons">
+                <button type="submit" class="btn btn-primary">Voteaza</button>
+                <a *ngIf="!ballot.poll.hideResults" (click)="showResults()" class="btn btn-default">Rezultate</a>
+              </div>
+            </form>
+            <div *ngSwitchCase="true">
+              <div *ngFor="let answer of ballot.results">
+                <p>{{answer.text}}</p>
+                <div class="progress" >
+                  <div class="progress-bar" role="progressbar" attr.aria-valuenow="{{answer.votes}}" attr.aria-valuemin="0" attr.aria-valuemax="{{ballot.totalVotes}}" [style.width]="answer.percStyle">
+                    {{answer.votes}} {{answer.votes == 1 ? 'vot': 'voturi'}}
+                  </div>
+                </div>
+              </div>
+              <a *ngIf="!ballot.alreadyVoted" (click)="showingResults = false" class="btn btn-default">Înapoi la vot</a>
             </div>
           </div>
-          <div class="form-group poll-buttons">
-            <button type="submit" class="btn btn-primary">Voteaza</button>
-            <button *ngIf="!ballot.poll.hideResults" class="btn btn-default">Rezultate</button>
-          </div>
-        </form>
-      </div>
+        </div>        
     </div>
   </div>
   <div class="col-md-2"></div>
