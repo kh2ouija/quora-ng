@@ -15,6 +15,11 @@ export class Poll {
   hideResults: boolean;
 }
 
+export class Ballot {
+  poll: Poll;
+  alreadyVoted: boolean;
+}
+
 @Injectable()
 export class PollApiService {
   
@@ -28,7 +33,7 @@ export class PollApiService {
     return this.http.post(`${this.baseUrl}/polls`, poll);
   }
 
-  fetchPoll(hash: string): Observable<any> {
+  loadBallot(hash: string): Observable<any> {
     return this.http.get(`${this.baseUrl}/polls/${hash}`);
   }
 

@@ -8,7 +8,7 @@ import { Poll, Answer, PollApiService } from '../poll-api.service';
   templateUrl: './create-poll.component.html',
   styleUrls: ['./create-poll.component.css']
 })
-export class CreatePollComponent implements OnInit {
+export class CreatePollComponent {
 
   poll: Poll;
   createdHash: string;
@@ -45,6 +45,7 @@ export class CreatePollComponent implements OnInit {
     this.pollApiService.submitPoll(this.poll).subscribe(
       response => {
         this.createdHash = response.text();
+        console.log(this.createdHash);
         //this.router.navigateByUrl(`/${response.text()}`),
       },
       error => console.error(error)
@@ -53,9 +54,6 @@ export class CreatePollComponent implements OnInit {
 
   customTrackBy(index: number, obj: any): any {
     return index;
-  }
-
-  ngOnInit() {
   }
 
 }
