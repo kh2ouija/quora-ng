@@ -31,7 +31,7 @@ export class PollApiService {
   baseUrl: string;
 
   constructor(private http: Http) {
-    this.baseUrl = 'http://localhost:8080';
+    this.baseUrl = 'http://quora-ro-api.herokuapp.com';
   }
 
   submitPoll(poll: Poll): Observable<any> {
