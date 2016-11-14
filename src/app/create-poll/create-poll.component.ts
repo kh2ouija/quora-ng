@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { Poll, Answer, PollApiService } from '../poll-api.service';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'create-poll',
@@ -28,7 +29,7 @@ export class CreatePollComponent {
   }
 
   getSuccessHref() {
-    return `${window.location.protocol}//${window.location.host}/${this.createdHash}`
+    return `${environment.deploymentBaseUrl}/${this.createdHash}`
   }
 
   addAnswer() {

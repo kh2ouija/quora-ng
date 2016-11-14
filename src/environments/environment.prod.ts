@@ -1,3 +1,5 @@
 export const environment = {
-  production: true
+  production: true,
+  deploymentBaseUrl: 'http://quora.ro',
+  apiBaseUrl: 'http://quora-ro-api.herokuapp.com'
 };

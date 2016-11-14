@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { Observable } from 'rxjs/observable';
 import { SafeStyle } from '@angular/platform-browser';
+import { environment } from '../environments/environment';
 
 export class Answer {
   id: number;
@@ -31,7 +32,7 @@ export class PollApiService {
   baseUrl: string;
 
   constructor(private http: Http) {
-    this.baseUrl = 'http://quora-ro-api.herokuapp.com';
+    this.baseUrl = environment.apiBaseUrl;
   }
 
   submitPoll(poll: Poll): Observable<any> {
