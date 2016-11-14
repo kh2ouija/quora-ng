@@ -12,7 +12,7 @@
                 <div class="form-group">
                   <div *ngIf="answer.text !== ''" [ngClass]="ballot.poll.multipleChoice ? 'checkbox' : 'radio'">
                     <label>
-                      <input name="selectedAnswer" value="{{answer.id}}" (click)="answerClicked(answer)" type="{{ballot.poll.multipleChoice ? 'checkbox' : 'radio'}}">
+                      <input name="selectedAnswer" [value]="answer.id" (click)="answerClicked(answer)" [type]="ballot.poll.multipleChoice ? 'checkbox' : 'radio'">
                       {{answer.text}}
                     </label>
                   </div>
@@ -27,7 +27,7 @@
               <div *ngFor="let answer of ballot.results">
                 <p>{{answer.text}}</p>
                 <div class="progress" >
-                  <div class="progress-bar" role="progressbar" attr.aria-valuenow="{{answer.votes}}" attr.aria-valuemin="0" attr.aria-valuemax="{{ballot.totalVotes}}" [style.width]="answer.percStyle">
+                  <div class="progress-bar" role="progressbar" [attr.aria-valuenow]="answer.votes" attr.aria-valuemin="0" [attr.aria-valuemax]="ballot.totalVotes" [style.width]="answer.percStyle">
                     {{answer.votes}} {{answer.votes == 1 ? 'vot': 'voturi'}}
                   </div>
                 </div>
