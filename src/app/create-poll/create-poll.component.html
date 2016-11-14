@@ -27,11 +27,11 @@
     <form #pollForm="ngForm" (ngSubmit)="createPoll()" novalidate>
 
       <div class="col-md-5">
-        <label>Întrebare</label>
+        <label>Întrebare:</label>
         <div [ngClass]="{'form-group form-group-lg': true, 'has-success': questionInput.valid, 'has-error': pollForm.dirty && !questionInput.valid}">
           <input required #questionInput="ngModel" [(ngModel)]="poll.question" name="question" placeholder="Ex: Care e culoarea ta preferata?" class="form-control" />    
         </div>
-        <label>Răspunsuri</label>
+        <label>Răspunsuri:</label>
         <div *ngFor="let answer of poll.answers; let i = index; trackBy:customTrackBy" [ngClass]="{'form-group': true, 'has-success': answerInput.valid, 'has-error': pollForm.dirty && !answerInput.valid}">
           <div class="input-group">
             <input #answerInput="ngModel" required [(ngModel)]="answer.text" name="answers[{{i}}]" placeholder="Ex: Răspuns {{i + 1}}" class="form-control"/>
@@ -62,7 +62,7 @@
           </div>
           <div class="form-group">
             <label>Protecție împotriva votului multiplu</label>
-            <select id="security" class="form-control">
+            <select id="security" class="form-control" disabled>
               <option>Standard (cu cookie)</option>
               <option>Extra (un vot per IP)</option>
             </select>
