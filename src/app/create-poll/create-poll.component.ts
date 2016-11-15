@@ -29,7 +29,7 @@ export class CreatePollComponent {
   }
 
   getSuccessHref() {
-    return `${environment.deploymentBaseUrl}/${this.createdHash}`
+    return `${environment.deploymentBaseUrl}/q/${this.createdHash}`
   }
 
   addAnswer() {
@@ -46,8 +46,6 @@ export class CreatePollComponent {
     this.pollApiService.submitPoll(this.poll).subscribe(
       response => {
         this.createdHash = response.text();
-        console.log(this.createdHash);
-        //this.router.navigateByUrl(`/${response.text()}`),
       },
       error => console.error(error)
     );

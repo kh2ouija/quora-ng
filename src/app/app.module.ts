@@ -8,12 +8,14 @@ import { AppComponent } from './app.component';
 import { CreatePollComponent } from './create-poll/create-poll.component';
 import { PollApiService } from './poll-api.service';
 import { ShowPollComponent } from './show-poll/show-poll.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     CreatePollComponent,
-    ShowPollComponent
+    ShowPollComponent,
+    NotFoundComponent
   ],
   imports: [
     BrowserModule,

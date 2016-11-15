@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
 import * as _ from 'lodash';
 
@@ -17,7 +17,10 @@ export class ShowPollComponent implements OnInit {
   hash: string;
   showingResults: boolean;
 
-  constructor(private pollApiService: PollApiService, private route: ActivatedRoute, private sanitizer: DomSanitizer) {
+  constructor(private pollApiService: PollApiService,
+      private router: Router, 
+      private route: ActivatedRoute, 
+      private sanitizer: DomSanitizer) {
     this.showingResults = false;
   }
 
@@ -33,7 +36,8 @@ export class ShowPollComponent implements OnInit {
           else {
             this.ballot.poll.answers.forEach((a) => a.picked = false);
           }  
-        }
+        },
+        error => this.router.navigateByUrl('/404')
       );
     });  
   }
